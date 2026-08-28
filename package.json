@@ -1,0 +1,9 @@
+{
+  "name": "neon-arena-cyber-pong",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NEON ARENA：原生 HTML、CSS、Canvas 與 JavaScript 的單人乒乓遊戲。",
+  "scripts": {
+    "test": "node tests/smoke-test.js"
+  }
+}

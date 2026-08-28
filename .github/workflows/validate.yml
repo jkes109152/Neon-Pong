@@ -1,0 +1,26 @@
+name: NEON ARENA 驗證
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: 靜態檢查與煙霧測試
+    runs-on: ubuntu-latest
+    steps:
+      - name: 取得程式碼
+        uses: actions/checkout@v4
+      - name: 設定 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: 執行煙霧測試
+        run: npm test
+      - name: 檢查 JavaScript 語法
+        run: node --check game.js
