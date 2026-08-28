@@ -43,6 +43,7 @@
   const particles = [];
   const stars = Array.from({ length: 80 }, (_, index) => ({ x: (index * 173) % W, y: (index * 97) % H, r: index % 4 === 0 ? 1.6 : .7, a: .15 + (index % 5) * .07 }));
   const keys = new Set();
+  const virtualKeys = new Set();
   let audioContext;
   let animationFrame;
 
@@ -156,9 +157,9 @@
   }
 
   function movePlayer(dt) {
-    const keyboardDirection = (keys.has('ArrowDown') || keys.has('s') ? 1 : 0) - (keys.has('ArrowUp') || keys.has('w') ? 1 : 0);
+    const keyboardDirection = (keys.has('ArrowDown') || keys.has('KeyS') || virtualKeys.has('down') ? 1 : 0) - (keys.has('ArrowUp') || keys.has('KeyW') || virtualKeys.has('up') ? 1 : 0);
     if (keyboardDirection) player.targetY += keyboardDirection * 440 * dt;
-    if (state.pointerY !== null) player.targetY = state.pointerY - paddle.height / 2;
+    if (state.pointerY !== null && keyboardDirection === 0) player.targetY = state.pointerY - paddle.height / 2;
     player.targetY = clamp(player.targetY, 26, H - paddle.height - 26);
     player.y += (player.targetY - player.y) * Math.min(1, dt * 16);
   }
@@ -264,10 +265,20 @@
   ui.pause.addEventListener('click', pauseMatch);
   ui.sound.addEventListener('click', () => { state.muted = !state.muted; localStorage.setItem('neon-arena-muted', String(state.muted)); ui.sound.classList.toggle('is-active', !state.muted); ui.sound.setAttribute('aria-label', state.muted ? '開啟音效' : '關閉音效'); });
   document.querySelectorAll('.difficulty-button').forEach((button) => button.addEventListener('click', () => { state.level = button.dataset.level; document.querySelectorAll('.difficulty-button').forEach((item) => item.classList.toggle('is-active', item === button)); if (state.phase !== 'playing') setText(ui.status, `強度：${difficulty().label}`); }));
-  window.addEventListener('keydown', (event) => { if (['ArrowUp', 'ArrowDown', 'w', 's', ' '].includes(event.key)) event.preventDefault(); if (event.key === ' ') pauseMatch(); keys.add(event.key); });
-  window.addEventListener('keyup', (event) => keys.delete(event.key));
+  window.addEventListener('keydown', (event) => { if (['ArrowUp', 'ArrowDown', 'KeyW', 'KeyS', 'Space'].includes(event.code)) event.preventDefault(); if (event.code === 'Space') pauseMatch(); keys.add(event.code); });
+  window.addEventListener('keyup', (event) => keys.delete(event.code));
+  window.addEventListener('blur', () => keys.clear());
   canvas.addEventListener('pointermove', pointerToCanvas); canvas.addEventListener('pointerleave', () => { state.pointerY = null; });
   canvas.addEventListener('pointerdown', (event) => { pointerToCanvas(event); canvas.setPointerCapture(event.pointerId); });
+
+  function bindPaddleButton(buttonId, direction) {
+    const button = document.querySelector(`#${buttonId}`);
+    const press = (event) => { event.preventDefault(); virtualKeys.add(direction); button.classList.add('is-pressed'); };
+    const release = (event) => { event.preventDefault(); virtualKeys.delete(direction); button.classList.remove('is-pressed'); };
+    button.addEventListener('pointerdown', press); button.addEventListener('pointerup', release); button.addEventListener('pointercancel', release); button.addEventListener('pointerleave', release);
+  }
+
+  bindPaddleButton('move-up', 'up'); bindPaddleButton('move-down', 'down');
 
   ui.sound.classList.toggle('is-active', !state.muted);
   updateScoreboard();
