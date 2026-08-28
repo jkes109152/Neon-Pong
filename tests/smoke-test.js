@@ -12,7 +12,8 @@ const checks = [
   ['遊戲腳本包含電腦 AI', js.includes('predictCpuTarget') && js.includes('moveCpu')],
   ['遊戲腳本包含碰撞與得分', js.includes('scorePoint') && js.includes('bounce')],
   ['遊戲腳本包含三段難度', ['rookie', 'pro', 'elite'].every((level) => js.includes(level))],
-  ['遊戲腳本支援鍵盤與指標操作', js.includes('keydown') && js.includes('pointermove')],
+  ['遊戲腳本支援穩定鍵盤與指標操作', js.includes('keydown') && js.includes('event.code') && js.includes('KeyW') && js.includes('pointermove')],
+  ['遊戲腳本支援畫面上下控制按鈕', html.includes('id="move-up"') && html.includes('id="move-down"') && js.includes('bindPaddleButton')],
   ['樣式包含響應式版面', css.includes('@media')],
   ['沒有外部遊戲套件依賴', !html.includes('three.js') && !html.includes('phaser')],
 ];
