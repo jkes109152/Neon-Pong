@@ -20,6 +20,8 @@
 - 補充來源：GitHub Docs，〈Configuring a publishing source for your GitHub Pages site〉，<https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site>，查證日期 2026-08-28。
 - 限制：Pages 發布前仍需要一個已存在的 GitHub repository；本次工作區沒有對應遠端 repository。
 
+後續發布：已在 `specs/002-github-pages-deploy/` 補上 GitHub Pages Actions 發布流程；使用者仍需在 repository Pages 設定中選擇 GitHub Actions。
+
 ## 資產與授權
 
 - 未重用第三方程式碼、圖片或音訊資產。

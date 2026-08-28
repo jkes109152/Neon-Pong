@@ -35,3 +35,9 @@ node --check game.js
 ```
 
 本專案不使用外部執行期套件；GitHub Pages 可直接發布靜態檔案。`.github/workflows/validate.yml` 會在 Pull Request 與 `main` 推送時執行靜態驗證。
+
+## GitHub Pages 發布
+
+專案已附上 `.github/workflows/deploy-pages.yml`。合併至 `main` 後，在 repository 的 **Settings → Pages → Build and deployment → Source** 選擇 **GitHub Actions**，再等待 `發布 NEON ARENA 至 GitHub Pages` workflow 完成即可。
+
+發布設計文件：`specs/002-github-pages-deploy/`。
