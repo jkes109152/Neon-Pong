@@ -2,6 +2,10 @@
 
 一款以電競舞台為視覺方向的單人 Canvas 乒乓遊戲。玩家對戰電腦 AI，先取得 7 分者獲勝。
 
+## 直接開啟
+
+[立即遊玩 NEON ARENA](https://jkes109152.github.io/Neon-Pong/)
+
 ## 執行
 
 直接開啟 `index.html` 即可遊玩。若瀏覽器限制本地檔案的音效或儲存功能，可在專案目錄執行：
@@ -38,6 +42,6 @@ node --check game.js
 
 ## GitHub Pages 發布
 
-專案已附上 `.github/workflows/deploy-pages.yml`。合併至 `main` 後，在 repository 的 **Settings → Pages → Build and deployment → Source** 選擇 **GitHub Actions**，再等待 `發布 NEON ARENA 至 GitHub Pages` workflow 完成即可。
+專案已附上 `.github/workflows/deploy-pages.yml`。合併至 `main` 後，在 repository 的 **Settings → Pages → Build and deployment → Source** 選擇 **GitHub Actions**，再等待「發布 NEON ARENA 至 GitHub Pages」workflow 完成即可。
 
 發布設計文件：`specs/002-github-pages-deploy/`。
