@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="description" content="NEON ARENA：一款帶有電競舞台質感的單人 Canvas 乒乓遊戲。" />
+    <title>NEON ARENA｜Cyber Pong</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand-lockup">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+          <div>
+            <p class="eyebrow">NEON SPORTS DIVISION · 2049</p>
+            <h1>NEON <em>ARENA</em></h1>
+          </div>
+        </div>
+        <div class="top-actions">
+          <div class="live-indicator"><span></span> 線上競技場</div>
+          <button class="icon-button" id="sound-button" type="button" aria-label="開啟音效" title="音效">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19V5Zm7.07 2.93a6 6 0 0 1 0 8.14M15.9 10.1a2.7 2.7 0 0 1 0 3.8" /></svg>
+          </button>
+          <button class="icon-button" id="pause-button" type="button" aria-label="暫停遊戲" title="暫停遊戲">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" /></svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="scoreboard" aria-label="比分板">
+        <div class="score-card player-card">
+          <div class="score-card-heading"><span class="player-dot"></span><span>你</span><small>玩家</small></div>
+          <strong id="player-score">00</strong>
+          <div class="score-progress" id="player-progress" aria-hidden="true"></div>
+        </div>
+        <div class="match-meta">
+          <span class="match-label">單人對決</span>
+          <div class="vs-lockup"><span>VS</span><i></i></div>
+          <span class="match-status" id="match-status">準備開球</span>
+        </div>
+        <div class="score-card cpu-card">
+          <div class="score-card-heading"><span class="cpu-dot"></span><span>CPU</span><small>AI 對手</small></div>
+          <strong id="cpu-score">00</strong>
+          <div class="score-progress" id="cpu-progress" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <section class="arena-wrap">
+        <div class="arena-frame">
+          <div class="arena-corner corner-tl"></div><div class="arena-corner corner-tr"></div>
+          <div class="arena-corner corner-bl"></div><div class="arena-corner corner-br"></div>
+          <canvas id="game-canvas" width="1280" height="720" aria-label="NEON ARENA 遊戲畫面"></canvas>
+          <div class="game-overlay" id="game-overlay">
+            <div class="overlay-panel" id="overlay-panel">
+              <div class="overlay-kicker">WELCOME TO THE GRID</div>
+              <h2 id="overlay-title">準備上場？</h2>
+              <p id="overlay-copy">用你的反應力，擊穿 AI 的防線。</p>
+              <button class="primary-button" id="start-button" type="button"><span>開始比賽</span><b>↗</b></button>
+              <div class="overlay-hint"><kbd>W</kbd><kbd>S</kbd> 或 <kbd>↑</kbd><kbd>↓</kbd> 移動球拍</div>
+            </div>
+          </div>
+          <div class="countdown" id="countdown" aria-live="polite"></div>
+          <div class="canvas-chip chip-left"><span class="signal-dot"></span> PLAYER 01</div>
+          <div class="canvas-chip chip-right">AI CORE <span class="signal-dot signal-purple"></span></div>
+        </div>
+        <div class="arena-caption">
+          <span><i class="caption-line"></i>第 <b id="rally-count">00</b> 回合</span>
+          <span class="caption-center">FIRST TO <b>07</b></span>
+          <span><b id="speed-readout">0.0</b> km/h <i class="caption-line reverse"></i></span>
+        </div>
+        <div class="paddle-controls" role="group" aria-label="玩家球拍控制">
+          <span class="paddle-controls-label">球拍控制</span>
+          <button class="paddle-button" id="move-up" type="button" aria-label="球拍上移"><span>↑</span><small>上移</small></button>
+          <button class="paddle-button" id="move-down" type="button" aria-label="球拍下移"><span>↓</span><small>下移</small></button>
+          <span class="paddle-controls-hint">按住按鈕移動</span>
+        </div>
+      </section>
+
+      <section class="control-deck">
+        <div class="deck-block difficulty-block">
+          <div class="deck-label"><span>對手強度</span><small>DIFFICULTY</small></div>
+          <div class="segmented-control" role="group" aria-label="選擇對手強度">
+            <button class="difficulty-button" data-level="rookie" type="button">新秀</button>
+            <button class="difficulty-button is-active" data-level="pro" type="button">職業</button>
+            <button class="difficulty-button" data-level="elite" type="button">菁英</button>
+          </div>
+        </div>
+        <div class="deck-block stat-block">
+          <div><span class="stat-label">最佳連擊</span><strong id="best-rally">00</strong></div>
+          <div><span class="stat-label">最快球速</span><strong id="best-speed">0.0<small> km/h</small></strong></div>
+        </div>
+        <button class="secondary-button" id="reset-button" type="button"><span>重新開局</span><b>↻</b></button>
+      </section>
+
+      <footer class="footer-bar">
+        <span>NEON ARENA <i>×</i> CYBER PONG</span>
+        <span>本地競技紀錄 · <b id="session-status">待機中</b></span>
+        <span>© 2049 NEON SPORTS</span>
+      </footer>
+    </main>
+
+    <script src="game.js" defer></script>
+  </body>
+</html>
